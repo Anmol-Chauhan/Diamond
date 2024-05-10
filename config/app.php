@@ -53,6 +53,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+	
+	'asset_url' => env('ASSET_URL', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -154,6 +156,10 @@ return [
     */
 
     'key' => env('APP_KEY'),
+	
+	'mail_from' => env('MAIL_USERNAME'),
+	
+	'klaviyo' => env('klaviyo_api_key'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -282,6 +288,9 @@ return [
         Webkul\SocialLogin\Providers\SocialLoginServiceProvider::class,
         Webkul\DebugBar\Providers\DebugBarServiceProvider::class,
         Webkul\Marketing\Providers\MarketingServiceProvider::class,
+        Webkul\MpAuthorizeNet\Providers\MpAuthorizeNetServiceProvider::class,
+        Webkul\Affirm\Providers\AffirmServiceProvider::class,
+		Wontonee\Stripe\Providers\StripeServiceProvider::class,
     ],
 
     /*

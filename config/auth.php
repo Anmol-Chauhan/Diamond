@@ -54,7 +54,7 @@ return [
         'customers' => [
             'provider' => 'customers',
             'table' => 'customer_password_resets',
-            'expire' => 60,
+            'expire' => 6000,
         ],
     ],
 ];
