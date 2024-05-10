@@ -58,6 +58,7 @@ return [
         'categories' => 'Categories',
         'attributes' => 'Attributes',
         'attribute-families' => 'Attribute Families',
+        'vendor-margins' => 'Vendor Margins',
         'customers' => 'Customers',
         'groups' => 'Groups',
         'reviews' => 'Reviews',
@@ -99,6 +100,7 @@ return [
         'categories' => 'Categories',
         'attributes' => 'Attributes',
         'attribute-families' => 'Attribute Families',
+        'vendor-margins' => 'Vendor Margins',
         'customers' => 'Customers',
         'addresses' => 'Addresses',
         'note' => 'Note',
@@ -122,6 +124,7 @@ return [
         'edit' => 'Edit',
         'create' => 'Add',
         'delete' => 'Delete',
+        'manage' => 'Manage',
         'mass-delete' => 'Mass Delete',
         'mass-update' => 'Mass Update',
         'marketing' => 'Marketing',
@@ -632,6 +635,9 @@ return [
             'add-attribute-title' => 'Add Attributes',
             'search' => 'Search',
             'group-exist-error' => 'Group with same name already exists.'
+        ],
+        'margins' => [
+            'title' => 'Vendor Margins',
         ],
         'categories' => [
             'title' => 'Categories',
@@ -1470,5 +1476,6 @@ return [
             'accepted-currencies-info' => 'Add currency code comma seperated e.g. USD,INR,...',
             'buy-now-button-display' => 'Allow customers to directly buy products'
        ]
-    ]
+    ],
+	'stripe-apikey'	 => 'sk_test_51Ke0fiB7fcAXNTc5TtCh68vLWzmybxa1BVHKfqGTWVoY9a49q2JinTjSuAaWZuOVs30Do7QnTxJxfN6sIZ8Myytw00Fng48UMm',
 ];

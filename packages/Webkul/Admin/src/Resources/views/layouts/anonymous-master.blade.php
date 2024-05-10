@@ -10,7 +10,7 @@
         @if ($favicon = core()->getConfigData('general.design.admin_logo.favicon'))
             <link rel="icon" sizes="16x16" href="{{ \Illuminate\Support\Facades\Storage::url($favicon) }}" />
         @else
-            <link rel="icon" sizes="16x16" href="{{ asset('vendor/webkul/ui/assets/images/favicon.ico') }}" />
+            <link rel="icon" sizes="16x16" href="{{ asset('themes/bliss/assets/images/Barkev-s-Logo.svg')}}" />
         @endif
 
         <link rel="stylesheet" href="{{ asset('vendor/webkul/admin/assets/css/admin.css') }}">
@@ -84,7 +84,7 @@
                         @if (core()->getConfigData('general.design.admin_logo.logo_image', core()->getCurrentChannelCode()))
                             <img src="{{ \Illuminate\Support\Facades\Storage::url(core()->getConfigData('general.design.admin_logo.logo_image', core()->getCurrentChannelCode())) }}" alt="{{ config('app.name') }}" style="height: 40px; width: 110px;"/>
                         @else
-                            <img src="{{ asset('vendor/webkul/ui/assets/images/logo.png') }}" alt="{{ config('app.name') }}"/>
+                            <img src="{{ asset('themes/bliss/assets/images/Barkev-s-Logo.svg')}}" alt="{{ config('app.name') }}"/>
                         @endif
                     </div>
 
