@@ -452,12 +452,12 @@ class Configurable extends AbstractType
         if ($this->haveOffer()) {
             return '<div class="sticker sale">' . trans('shop::app.products.sale') . '</div>'
             . '<span class="price-label">' . trans('shop::app.products.price-label') . '</span>'
-            . '<span class="regular-price">' . core()->currency($this->getMinimalPrice()) . '</span>'
-            . '<span class="final-price">' . core()->currency($this->getOfferPrice()) . '</span>';
+            . '<span class="regular-price">$' . number_format($this->getMinimalPrice()) . '</span>'
+            . '<span class="final-price">$' . number_format($this->getOfferPrice()) . '</span>';
         } else {
             return '<span class="price-label">' . trans('shop::app.products.price-label') . '</span>'
             . ' '
-            . '<span class="final-price">' . core()->currency($this->getMinimalPrice()) . '</span>';
+            . '<span class="final-price">$' . number_format($this->getMinimalPrice()) . '</span>';
         }
     }
 
@@ -522,7 +522,7 @@ class Configurable extends AbstractType
      */
     public function compareOptions($options1, $options2)
     {
-        if ($this->product->id != $options2['product_id']) {
+        if ((isset($options2['product_id'])) && ($this->product->id != $options2['product_id'])) {
             return false;
         }
 
@@ -547,12 +547,13 @@ class Configurable extends AbstractType
 
         foreach ($this->product->super_attributes as $attribute) {
             $option = $attribute->options()->where('id', $childProduct->{$attribute->code})->first();
-
-            $data['attributes'][$attribute->code] = [
-                'attribute_name' => $attribute->name ?  $attribute->name : $attribute->admin_name,
-                'option_id'      => $option->id,
-                'option_label'   => $option->label ? $option->label : $option->admin_name,
-            ];
+			if(!empty($option)){
+				$data['attributes'][$attribute->code] = [
+					'attribute_name' => $attribute->name ?  $attribute->name : $attribute->admin_name,
+					'option_id'      => $option->id,
+					'option_label'   => $option->label ? $option->label : $option->admin_name,
+				];
+			}
         }
 
         return $data;
@@ -587,7 +588,7 @@ class Configurable extends AbstractType
             if ($item instanceof \Webkul\Customer\Contracts\CartItem) {
                 $product = $item->child->product;
             } else {
-                if (count($item->child->product->images)) {
+                if (count($item->child->product->images) && !empty($item->child->product->images)) {
                     $product = $item->child->product;
                 } else {
                     $product = $item->product;
