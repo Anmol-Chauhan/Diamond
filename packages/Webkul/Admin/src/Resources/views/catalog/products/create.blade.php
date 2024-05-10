@@ -153,6 +153,46 @@
             </div>
 
         </form>
+		<!-- <form class="form-horizontal" action="http://localhost/barkev2.0/public/admin/catalog/products/importproductcsv" method="post" name="upload_excel" enctype="multipart/form-data">
+                    <fieldset>
+						 @csrf()
+                        <div class="jumbotron text-center">
+                          <h2>Import Products for Barkevs</h2>
+                          <p>Select the product type and upload csv to import products.</p> 
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="email">Product Type</label>
+                          <div class="col-md-4">
+                            <select class="form-control" id="product_type" name="product_type" required="required">
+                              <option value="">Select</option>
+                              <option value="13">Bracelets</option>
+                              <option value="14">Fashion Rings</option>
+                              <option value="15">Promise Rings</option>
+                              <option value="16">Earrings</option>
+                              <option value="17">Wedding Bands</option>
+                              <option value="18">Necklaces</option>
+                              <option value="19">Engagement Rings</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="filebutton">Select File</label>
+                            <div class="col-md-4">
+                                <input type="file" name="file" id="file" class="input-large">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="singlebutton">Import data</label>
+                            <div class="col-md-4">
+                                <button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Import</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form> -->
     </div>
 @stop
 

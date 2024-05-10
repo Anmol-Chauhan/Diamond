@@ -228,5 +228,10 @@
                 image_advtab: true
             });
         });
+		
+		$(document).ready(function () {
+            $('#discount_percent').attr("type", 'number');
+			$('#discount_percent').attr('max', 100);
+        });
     </script>
 @endpush

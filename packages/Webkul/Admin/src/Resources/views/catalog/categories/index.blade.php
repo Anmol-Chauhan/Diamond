@@ -10,12 +10,13 @@
             <div class="page-title">
                 <h1>{{ __('admin::app.catalog.categories.title') }}</h1>
             </div>
-
-            <div class="page-action">
-                <a href="{{ route('admin.catalog.categories.create') }}" class="btn btn-lg btn-primary">
-                    {{ __('admin::app.catalog.categories.add-title') }}
-                </a>
-            </div>
+            @if(auth()->guard('admin')->user()->role_id != 3)
+                <div class="page-action">
+                    <a href="{{ route('admin.catalog.categories.create') }}" class="btn btn-lg btn-primary">
+                        {{ __('admin::app.catalog.categories.add-title') }}
+                    </a>
+                </div>
+            @endif
         </div>
 
         {!! view_render_event('bagisto.admin.catalog.categories.list.before') !!}

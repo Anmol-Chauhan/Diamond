@@ -12,16 +12,21 @@
             </div>
 
             <div class="page-action">
-                <div class="export-import" @click="showModal('downloadDataGrid')">
+                <!-- <div class="export-import" @click="showModal('downloadDataGrid')">
                     <i class="export-icon"></i>
                     <span >
                         {{ __('admin::app.export.export') }}
                     </span>
-                </div>
+                </div> -->
 
-                <a href="{{ route('admin.catalog.products.create') }}" class="btn btn-lg btn-primary">
-                    {{ __('admin::app.catalog.products.add-product-btn-title') }}
+                <a href="{{ route('admin.catalog.products.bulkimport') }}" class="btn btn-lg btn-primary">
+                    {{ __('Upload CSV') }}
                 </a>
+                @if(auth()->guard('admin')->user()->role_id != 3)
+                    <a href="{{ route('admin.catalog.products.create') }}" class="btn btn-lg btn-primary">
+                        {{ __('admin::app.catalog.products.add-product-btn-title') }}
+                    </a>
+                @endif
             </div>
         </div>
 

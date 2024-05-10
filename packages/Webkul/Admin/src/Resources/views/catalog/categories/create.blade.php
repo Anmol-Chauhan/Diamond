@@ -6,7 +6,6 @@
 
 @section('content')
     <div class="content">
-
         <form method="POST" action="{{ route('admin.catalog.categories.store') }}" @submit.prevent="onSubmit" enctype="multipart/form-data">
 
             <div class="page-header">
@@ -94,6 +93,8 @@
                             </div>
 
                             <description></description>
+
+                            <footerdescription></footerdescription>
 
                             <div class="control-group {!! $errors->has('image.*') ? 'has-error' : '' !!}">
                                 <label>{{ __('admin::app.catalog.categories.image') }}</label>
@@ -244,6 +245,55 @@
                 $(document).ready(function () {
                     $('#display_mode').on('change', function (e) {
                         if ($('#display_mode').val() != 'products_only') {
+                            this_this.isRequired = true;
+                        } else {
+                            this_this.isRequired = false;
+                        }
+                    })
+                });
+            }
+        })
+    </script>
+
+    <script type="text/x-template" id="footerdescription-template">
+
+        <div class="control-group" :class="[errors.has('footerdescription') ? 'has-error' : '']">
+            <label for="footerdescription" >Footer Description</label>
+            <textarea   class="control" id="footerdescription" name="footer_description">{{ old('footer_description') }}</textarea>
+        </div>
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            tinymce.init({
+                selector: 'textarea#footerdescription',
+                height: 200,
+                width: "100%",
+                plugins: 'image imagetools media wordcount save fullscreen code table lists link hr',
+                toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor link hr | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent  | removeformat | code | table',
+                image_advtab: true
+            });
+        });
+
+        Vue.component('footerdescription', {
+
+            template: '#footerdescription-template',
+
+            inject: ['$validator'],
+
+            data: function() {
+                return {
+                    isRequired: true,
+                }
+            },
+
+            created: function () {
+                var this_this = this;
+
+                $(document).ready(function () {
+                    $('#footerdescription_display_mode').on('change', function (e) {
+                        if ($('#footerdescription_display_mode').val() != 'products_only') {
                             this_this.isRequired = true;
                         } else {
                             this_this.isRequired = false;
