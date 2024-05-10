@@ -281,10 +281,25 @@ Route::group(['middleware' => ['web']], function () {
                     'redirect' => 'admin.catalog.products.index',
                 ])->name('admin.catalog.products.update');
 
+                /* Product Auto publish */
+                Route::get('/products/bulkimport', 'Webkul\Product\Http\Controllers\ProductController@bulkimport')->defaults('_config', [
+                    'view' => 'admin::catalog.products.bulkimport',
+                ])->name('admin.catalog.products.bulkimport');
+
+                Route::post('/products/importproductcsv', 'Webkul\Product\Http\Controllers\ProductController@importProducts')->defaults('_config', [
+                    'redirect' => 'admin.catalog.products.index',
+                ])->name('admin.catalog.products.importProducts');
+
                 Route::post('/products/upload-file/{id}', 'Webkul\Product\Http\Controllers\ProductController@uploadLink')->name('admin.catalog.products.upload_link');
 
                 Route::post('/products/upload-sample/{id}', 'Webkul\Product\Http\Controllers\ProductController@uploadSample')->name('admin.catalog.products.upload_sample');
+					
+				//Diamond Import
+				Route::get('/scheduler/products/diamondimport', 'Webkul\Product\Http\Controllers\ProductController@importDiamonds')->defaults('_config', [
+                    'redirect' => 'admin.catalog.products.index',
+                ])->name('admin.catalog.products.importDiamonds');
 
+				
                 //product delete
                 Route::post('/products/delete/{id}', 'Webkul\Product\Http\Controllers\ProductController@destroy')->name('admin.catalog.products.delete');
 
@@ -390,6 +405,33 @@ Route::group(['middleware' => ['web']], function () {
                 ])->name('admin.catalog.families.update');
 
                 Route::post('/families/delete/{id}', 'Webkul\Attribute\Http\Controllers\AttributeFamilyController@destroy')->name('admin.catalog.families.delete');
+				
+				// Catalog Margins Routes
+				Route::get('/margins', 'Webkul\Product\Http\Controllers\MarginController@index')->defaults('_config', [
+                    'view' => 'admin::catalog.margins.index',
+                ])->name('admin.catalog.margins.index');
+				
+				Route::post('/margins/update', 'Webkul\Product\Http\Controllers\MarginController@store')->defaults('_config', [
+                    'redirect' => 'admin.catalog.margins.index',
+                ])->name('admin.catalog.margins.update');
+				
+				Route::get('/sorting', 'Webkul\Product\Http\Controllers\ProductController@sorting')->defaults('_config', ['view' => 'admin::catalog.products_sort.index',
+                ])->name('admin.catalog.sorting');
+				
+				Route::post('/sorting/update', 'Webkul\Product\Http\Controllers\ProductController@sorting_update')->name('admin.catalog.sorting.update');
+				
+				Route::get('/sorting/product-show', 'Webkul\Product\Http\Controllers\ProductController@product_show')->defaults('_config', ['view' => 'admin::catalog.products_sort.index',
+                ])->name('admin.catalog.sorting.product_show');
+				
+				Route::post('/sorting/getCategory', 'Webkul\Product\Http\Controllers\ProductController@getCategory')->name('admin.catalog.sorting.getCategory');;
+				
+				// Shipping Date Routes
+				Route::get('/shipping-date', 'Webkul\Product\Http\Controllers\ProductController@shipping_date')->defaults('_config', ['view' => 'admin::catalog.shipping_date.index',
+                ])->name('admin.catalog.shipping_date');
+				
+				Route::post('/shipping-date/update', 'Webkul\Product\Http\Controllers\ProductController@shipping_date')->name('admin.catalog.shipping_date.update');
+				
+				Route::get('/shipping-date/delete', 'Webkul\Product\Http\Controllers\ProductController@shipping_date_delete')->name('admin.catalog.shipping_date.delete');
             });
 
             // User Routes
@@ -668,6 +710,8 @@ Route::group(['middleware' => ['web']], function () {
 
             //DataGrid Export
             Route::post(config('app.admin_url') . '/export', 'Webkul\Admin\Http\Controllers\ExportController@export')->name('admin.datagrid.export');
+			
+			Route::get('/mail-resend/{id}','Webkul\Admin\Http\Controllers\Sales\OrderController@mail_resend')->name('admin/mail-resend');
 
             Route::prefix('promotions')->group(function () {
                 Route::get('cart-rules', 'Webkul\CartRule\Http\Controllers\CartRuleController@index')->defaults('_config', [

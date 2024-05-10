@@ -68,6 +68,23 @@ return [
         'sort'       => 4,
         'icon-class' => '',
     ], [
+        'key'        => 'catalog.margins',
+        'name'       => 'admin::app.layouts.vendor-margins',
+        'route'      => 'admin.catalog.margins.index',
+        'sort'       => 5,
+        'icon-class' => '',
+    ],[
+        'key'        => 'catalog.sorting',
+        'name'       => 'Arrange Product',
+        'route'      => 'admin.catalog.sorting',
+        'sort'       => 6,
+        'icon-class' => '',
+    ],[
+        'key'        => 'catalog.shipping-date',
+        'name'       => 'Shipping Date',
+        'route'      => 'admin.catalog.shipping_date',
+        'sort'       => 7,
+    ], [
         'key'        => 'customers',
         'name'       => 'admin::app.layouts.customers',
         'route'      => 'admin.customer.index',

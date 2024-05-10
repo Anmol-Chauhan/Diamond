@@ -23,9 +23,11 @@ class OrderDataGrid extends DataGrid
                 $leftJoin->on('order_address_billing.order_id', '=', 'orders.id')
                          ->where('order_address_billing.address_type', OrderAddress::ADDRESS_TYPE_BILLING);
             })
-            ->addSelect('orders.id','orders.increment_id', 'orders.base_sub_total', 'orders.base_grand_total', 'orders.created_at', 'channel_name', 'status')
+            
+            ->addSelect('orders.id','orders.increment_id', 'orders.base_sub_total', 'orders.base_grand_total', 'orders.created_at', 'channel_name', 'status', 'mail_status')
             ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name) as billed_to'))
-            ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'));
+            ->addSelect(DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name) as shipped_to'))
+            ->groupBy('orders.id');
 
         $this->addFilter('billed_to', DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_billing.first_name, " ", ' . DB::getTablePrefix() . 'order_address_billing.last_name)'));
         $this->addFilter('shipped_to', DB::raw('CONCAT(' . DB::getTablePrefix() . 'order_address_shipping.first_name, " ", ' . DB::getTablePrefix() . 'order_address_shipping.last_name)'));
@@ -106,6 +108,25 @@ class OrderDataGrid extends DataGrid
                 } elseif ($value->status == "fraud") {
                     return '<span class="badge badge-md badge-danger">'. trans('admin::app.sales.orders.order-status-fraud') . '</span>';
                 }
+            },
+        ]);
+		
+		$this->addColumn([
+            'index'      => 'mail_status',
+            'label'      => 'Mail Status',
+            'type'       => 'string',
+            'sortable'   => true,
+            'searchable' => true,
+            'closure'    => true,
+            'filterable' => true,
+            'wrapper' => function ($value) {
+                if ($value->mail_status == 'Success') {
+                    return '<span class="badge badge-md badge-success">Sent</span>';
+                }elseif($value->mail_status == 'Resent') {
+                    return '<span class="badge badge-md badge-success">Resent</span>';
+                }else{
+					return '<a href="'.url('admin/mail-resend').'/'.$value->id.'" style="color:white;" class="badge badge-md badge-danger">Resend</a>';
+				}
             },
         ]);
 

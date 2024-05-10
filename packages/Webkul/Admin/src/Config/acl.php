@@ -210,6 +210,21 @@ return [
         'name'  => 'admin::app.acl.delete',
         'route' => 'admin.catalog.families.delete',
         'sort'  => 3,
+    ], [
+        'key'   => 'catalog.margins',
+        'name'  => 'admin::app.acl.vendor-margins',
+        'route' => 'admin.catalog.margins.index',
+        'sort'  => 5,
+    ], [
+        'key'        => 'catalog.sorting',
+        'name'       => 'Arrange Product',
+        'route'      => 'admin.catalog.sorting',
+        'sort'       => 6,
+    ],[
+        'key'        => 'catalog.shipping-date',
+        'name'       => 'Shipping Date',
+        'route'      => 'admin.catalog.shipping_date',
+        'sort'       => 7,
     ],
 
     /*
