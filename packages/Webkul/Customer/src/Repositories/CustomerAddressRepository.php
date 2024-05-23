@@ -34,8 +34,8 @@ class CustomerAddressRepository extends Repository
         if (isset($default_address->id) && $data['default_address']) {
             $default_address->update(['default_address' => 0]);
         }
-
-        $address = $this->model->create($data);
+		
+		$address = $this->model->create($data);
 
         Event::dispatch('customer.addresses.create.after', $address);
 
