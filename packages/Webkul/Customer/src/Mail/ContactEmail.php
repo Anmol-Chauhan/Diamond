@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Config;
 
-class RegistrationEmail extends Mailable
+class ContactEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -35,11 +35,15 @@ class RegistrationEmail extends Mailable
      */
     public function build()
     {
-       $bcc = Config::get('constant.MAIL_BCC');
-	   return $this->from(core()->getSenderEmailDetails()['email'], core()->getSenderEmailDetails()['name'])
-            ->to($this->data['email'])
+		$cc = Config::get('constant.MAIL_CC');
+        $bcc = Config::get('constant.MAIL_BCC');
+		//core()->getAdminEmailDetails()['email']
+       return $this->from(core()->getSenderEmailDetails()['email'], core()->getSenderEmailDetails()['name'])
+            ->to($this->data['email'], $this->data['name'])
+			->cc($cc)
 			->bcc($bcc)
-            ->subject(trans('shop::app.mail.customer.registration.customer-registration'))
-            ->view('shop::emails.customer.registration')->with('data', $this->data);
+            ->subject('Thank you for contacting us')
+             ->view('shop::emails.customer.contact')->with('data', $this->data);
+
     }
 }

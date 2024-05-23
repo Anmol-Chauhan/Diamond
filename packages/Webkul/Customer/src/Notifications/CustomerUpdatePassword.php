@@ -5,6 +5,7 @@ namespace Webkul\Customer\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Config;
 
 class CustomerUpdatePassword extends Mailable
 {
@@ -35,8 +36,10 @@ class CustomerUpdatePassword extends Mailable
      */
     public function build()
     {
+		$bcc = Config::get('constant.MAIL_BCC');
         return $this->from(core()->getSenderEmailDetails()['email'], core()->getSenderEmailDetails()['name'])
                     ->to($this->customer->email, $this->customer->name)
+					->bcc($bcc)
                     ->subject(trans('shop::app.mail.update-password.subject'))
                     ->view('shop::emails.customer.update-password', ['user' => $this->customer]);
     }

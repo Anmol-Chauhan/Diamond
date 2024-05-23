@@ -4,11 +4,14 @@ namespace Webkul\Customer\Http\Controllers;
 
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
+use Webkul\Customer\Helpers\BasecampMail;
+use Webkul\Customer\Repositories\CustomerRepository;
+use Config;
 
 class ForgotPasswordController extends Controller
 {
     use SendsPasswordResetEmails;
-    
+
     /**
      * Contains route related configuration
      *
@@ -21,9 +24,13 @@ class ForgotPasswordController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        CustomerRepository $customerRepository
+    )
     {
         $this->_config = request('_config');
+
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -43,6 +50,28 @@ class ForgotPasswordController extends Controller
      */
     public function store()
     {
+		$data = request()->input();
+
+        $customer = $this->customerRepository->findOneByField('email',$data['email']);
+		if(empty($customer)){
+		session()->flash('error',trans('customer::app.forget_password.email_not_exist'));
+		return redirect()->back();
+		}
+
+
+		if(isset($data['g-recaptcha-response']) && !empty($data['g-recaptcha-response'])){
+			$captcha=$data['g-recaptcha-response'];
+			$secret = Config::get('constant.GOOGLE_RECAPTCHA_SECRET_KEY');
+			$response = json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']));
+			if(isset($response->success) && $response->success === false)
+			{
+				session()->flash('error', 'Invalid captcha please try again!');
+				return redirect()->back();
+			}
+		}else{
+			session()->flash('error', 'Invalid captcha please try again!');
+			return redirect()->back();
+		}
         try {
             $this->validate(request(), [
                 'email' => 'required|email',
@@ -53,8 +82,11 @@ class ForgotPasswordController extends Controller
             );
 
             if ($response == Password::RESET_LINK_SENT) {
-                session()->flash('success', trans('customer::app.forget_password.reset_link_sent'));
 
+                BasecampMail::forgetPassword($data);
+                
+                session()->flash('success', trans('customer::app.forget_password.reset_link_sent'));
+                
                 return back();
             }
 

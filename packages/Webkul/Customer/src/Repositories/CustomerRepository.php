@@ -3,6 +3,7 @@
 namespace Webkul\Customer\Repositories;
 
 use Webkul\Core\Eloquent\Repository;
+use Illuminate\Support\Facades\DB;
 
 class CustomerRepository extends Repository
 {
@@ -48,4 +49,18 @@ class CustomerRepository extends Repository
 
         return false;
     }
+	
+	public function getlatestAddress($id=0) {
+		$latestAddress = DB::select('select * from `addresses` where `customer_id` = ? AND (`address_type` = "order_billing" OR `address_type` = "cart_billing") ORDER BY updated_at DESC LIMIT 1', [$id]);
+        
+		return reset($latestAddress);
+		
+	}
+	
+	public function getlatestShippingAddress($id=0) {
+		$latestAddress = DB::select('select * from `addresses` where `customer_id` = ? AND `address_type` = "cart_shipping" ORDER BY updated_at DESC LIMIT 1', [$id]);
+        
+		return reset($latestAddress);
+		
+	}
 }

@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Config;
 
-class RegistrationEmail extends Mailable
+class WishlistEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,6 +16,7 @@ class RegistrationEmail extends Mailable
      * @var array
      */
     public $data;
+    public $user;
 
     /**
      * Create a new mailable instance.
@@ -23,9 +24,10 @@ class RegistrationEmail extends Mailable
      * @param  array  $data
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data,$user)
     {
         $this->data = $data;
+        $this->user = $user;
     }
 
     /**
@@ -35,11 +37,10 @@ class RegistrationEmail extends Mailable
      */
     public function build()
     {
-       $bcc = Config::get('constant.MAIL_BCC');
-	   return $this->from(core()->getSenderEmailDetails()['email'], core()->getSenderEmailDetails()['name'])
-            ->to($this->data['email'])
-			->bcc($bcc)
-            ->subject(trans('shop::app.mail.customer.registration.customer-registration'))
-            ->view('shop::emails.customer.registration')->with('data', $this->data);
+       return $this->from('info@barkevs.com','Barkevs')
+            ->to($this->user->customer_email, $this->user->customer_first_name)
+            ->subject('Looks like you left some items in wishlist!')
+             ->view('shop::emails.customer.wishlist_email')->with('results', $this->data);
+
     }
 }

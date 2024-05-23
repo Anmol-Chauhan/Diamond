@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Config;
 
 class VerificationEmail extends Mailable
 {
@@ -32,16 +33,14 @@ class VerificationEmail extends Mailable
      *
      * @return \Illuminate\View\View
      */
+    
     public function build()
     {
-        return $this->from(core()->getSenderEmailDetails()['email'], core()->getSenderEmailDetails()['name'])
+        $bcc = Config::get('constant.MAIL_BCC');
+		return $this->from(core()->getSenderEmailDetails()['email'], core()->getSenderEmailDetails()['name'])
             ->to($this->verificationData['email'])
+			->bcc($bcc)
             ->subject(trans('shop::app.mail.customer.verification.subject'))
-            ->view('shop::emails.customer.verification-email')
-            ->with('data', [
-                'email' => $this->verificationData['email'],
-                'token' => $this->verificationData['token'],
-                ]
-            );
+            ->view('shop::emails.customer.verification-email')->with('data', $this->verificationData);
     }
 }
